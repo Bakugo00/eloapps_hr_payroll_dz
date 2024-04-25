@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  	<data>
+
+		<template id="report_custom_payslip_individuel" >
+			<t t-call="web.html_container">
+            	<t t-foreach="docs" t-as="o">
+                	<t t-call="web.external_layout">
+                    	
+						<!-- DECLARATION DES VARIABLES -->
+						<t t-set="rubriques_cotisables" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'COT'))"/>
+						<t t-set="rubriques_imposables" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'IMP'))"/>
+						<t t-set="rubriques_base" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'BASIC'))"/>
+						<t t-set="retenue_ss" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.code == 'SS'))"/>
+						<t t-set="retenue_irg" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.code == 'IRG' or r.code == 'IRGC'))"/>
+						<t t-set="base_cotisable" t-value="round(rubriques_base + rubriques_cotisables,2)"/>
+						<t t-set="base_imposable" t-value="round(base_cotisable + rubriques_imposables - retenue_ss,2)"/>
+
+						<t t-set="salaire_brut" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'GROSS'))"/>
+						<t t-set="salaire_net" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'NET_'))"/>
+								
+						<t t-set="mois" t-value="o.date_from.month"/>
+						<t t-set="annee" t-value="o.date_from.year"/>
+						<t t-set="months_fr" t-value="['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']"/>
+
+						<div class="page">
+
+				<style type="text/css">
+					.format {
+						height:30px;
+					}
+					.line {
+						border: 1px solid black;
+						background-color:white;
+						font-size: 12pt;
+					}
+					.line_b_0 {
+						border: 1px solid black;
+						font-size: 12pt;
+						border-top:0;
+					}
+					.line_b_1 {
+						border: 1px solid black;
+						font-size: 12pt;
+						border-left:0;
+						border-top:0;
+					}
+					.line_b {
+						border: 1px solid black;
+						font-size: 12pt;
+						border-left:0;
+						border-top:0;
+					}
+					.first_line_b_0 {
+						
+						border: 1px solid black;
+						font-size: 12pt;
+						color:white;
+						border-bottom:0;
+					}
+					.first_line_b_1 {
+						
+						border: 1px solid black;
+						font-size: 12pt;
+						color:white;
+						border-bottom:0;
+						border-left:0;
+					}
+					.first_line_b {
+						
+						border: 1px solid black;
+						font-size: 12pt;
+						color:white;
+						border-left:0;
+						border-bottom:0;
+					}
+					.first_line {
+						border: 1px solid black;
+						font-size: 12pt;
+						color:black;
+					}
+					.t_center {
+						text-align:center;
+						color:black;
+					} 
+					.t_right {
+						text-align:right;
+						color:black;
+					} 
+					.t_left {
+						text-align:left;
+						color:black;
+					}
+					.my_table {
+						background-color:#f9f4f4;
+						border-collapse: separate;
+						white-space: normal;
+						line-height: normal;
+						font-weight: normal;
+						font-size: medium;
+						font-style: normal;
+						color: -internal-quirk-inherit;
+						text-align: start;
+						border-spacing: 0px!important;
+						font-variant: normal;   
+					} 
+				</style>
+
+				<center>
+					<div>
+						<h2 style="margin-bottom: -15px;"> <strong> État des prestations de service</strong> </h2><br/>     		
+						<h3 style="margin-bottom: -15px;"> <strong>de <span t-field="o.employee_id"/> </strong> </h3> <br/>
+						<!--  -->
+						<h4 style="font-weight:normal; margin-bottom: 0px;">Pour  <span t-esc="months_fr[int(mois)-1]"/> <span t-esc="annee"/></h4> 
+						
+						<h4 style="font-weight:normal;float:left;padding-left:50px;"> <strong>Contrat : </strong> <span t-esc="o.contract_id.name"/> </h4>
+						<h4 style="font-weight:normal;float:right;padding-right:50px;"> <strong>Date de début : </strong> <span t-esc="o.contract_id.date_start.strftime('%d/%m/%Y')"/></h4>
+						
+						
+						
+					</div>
+					<br/><br/>
+				</center>
+				<br/><br/>
+				<center>
+					<table class="my_table" style="width:100%;">
+						<thead class="t_center">
+							<tr>
+								<td class="first_line format"><b>Code</b></td>
+								<td class="first_line format"><b>Désignation</b></td>
+								<th class="first_line format">Base</th>
+								<th class="first_line format">Gains</th>
+								<th class="first_line format">Retenues</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr t-foreach="o.line_ids.filtered(lambda r: r.category_id.code not in ['GROSS','INTERM','HJ','COEFF'])" t-as="p">
+								<td class="line t_center"><span t-if="p.code != 'NET' " t-field="p.code"/><span t-if="p.code == 'CH'">/100</span><span t-if="p.code == 'NET'">Montant à payer</span></td>
+								<td class="line t_left" style="background-color:white;"><span t-field="p.name"/><span t-if="p.name == 'Consultant Heure'">/Salaire de base</span></td>
+								<td class="line t_right">
+									<span t-esc="abs(p.amount)" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+								</td>
+								<td class="line t_right">
+									<span t-if="p.total &gt; 0" t-esc="abs(p.total)" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+								</td>
+								<td class="line t_right" style="background-color:white;">
+									<span t-if="p.total &lt; 0" t-esc="abs(p.total)" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+								</td>
+							</tr>
+							
+							<tfoot>
+								<tr>
+									<th class="first_line t_right" colspan="3">
+										<center><span>Total :</span></center>
+									</th>
+									
+
+									<th  class="first_line t_right">
+										<span id="gains" t-esc="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'BASIC' and r.total > 0))" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+									</th>
+									<th class="first_line t_right">
+										<span id="retenues" t-esc="abs(sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'DED')))"  t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+									</th>
+								</tr>
+							</tfoot>
+						</tbody>
+					</table>
+				</center>
+			</div>
+		</t>
+	</t>
+</t>
+		</template>
+
+		<template id="report_payslip_container_individuel">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="eloapps_hr_payroll_dz.report_custom_payslip_individuel"/>
+				</t>
+			</t>
+		</template>
+
+	</data>
+</odoo>

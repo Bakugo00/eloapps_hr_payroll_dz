@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="ir_cron_create_categories" model="ir.cron">
+            <field name="name">Création des catégories des règles salariales</field>
+            <field name="model_id" ref="eloapps_hr_payroll_dz.model_hr_salary_rule_category"/>
+            <field name="state">code</field>
+            <field name="priority">1</field>
+            <field name="code">model.create_categories()</field>
+            <field name="active">False</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+        <record id="ir_cron_create_rules" model="ir.cron">
+            <field name="name">Création des règles salariales</field>
+            <field name="model_id" ref="eloapps_hr_payroll_dz.model_hr_salary_rule"/>
+            <field name="state">code</field>
+            <field name="priority">2</field>
+            <field name="code">model.create_rules()</field>
+            <field name="active">False</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+        <record id="ir_cron_create_structures" model="ir.cron">
+            <field name="name">Création des structure salariales</field>
+            <field name="model_id" ref="eloapps_hr_payroll_dz.model_hr_payroll_structure"/>
+            <field name="state">code</field>
+            <field name="priority">3</field>
+            <field name="code">model.create_structures()</field>
+            <field name="active">False</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+        <record id="ir_cron_create_inputs" model="ir.cron">
+            <field name="name">Création des inputs des règles salariales</field>
+            <field name="model_id" ref="eloapps_hr_payroll_dz.model_hr_rule_input"/>
+            <field name="state">code</field>
+            <field name="priority">4</field>
+            <field name="code">model.create_inputs()</field>
+            <field name="active">False</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+        <record id="ir_cron_check_account" model="ir.cron">
+            <field name="name">Remplir les comptes sur les règles salariales</field>
+            <field name="model_id" ref="eloapps_hr_payroll_dz.model_hr_salary_rule"/>
+            <field name="state">code</field>
+            <field name="priority">5</field>
+            <field name="code">model.check_account_in_salary_rules()</field>
+            <field name="active">False</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+         <record id="ir_cron_check_rules" model="ir.cron">
+            <field name="name">Anciens/Nouveaux règles salariales</field>
+            <field name="model_id" ref="eloapps_hr_payroll_dz.model_hr_salary_rule"/>
+            <field name="state">code</field>
+            <field name="priority">5</field>
+            <field name="code">model.check_old_new_rules()</field>
+            <field name="active">False</field>
+            <field name="user_id" ref="base.user_root"/>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+   </data>
+</odoo>

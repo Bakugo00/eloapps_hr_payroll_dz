@@ -1,0 +1,58 @@
+<odoo>
+	<data>
+		<record id="hr_virbanc_view" model="ir.ui.view">
+			<field name="name">Payroll Report virbanc view wizard</field>
+			<field name="model">hr.payroll.report.virbanc</field>
+			<field name="arch" type="xml">
+				<form >
+					<group string="Impression des rapports de la paie Algérienne">
+						
+						
+						<field name="employee_id"
+							invisible="1"/>
+						<!-- ici on rajouter le virement bancaire dans le name -->
+						<field name="w_month" required="1" />
+						<field name="w_tri" invisible="1" />
+
+						<field name="year" />
+				
+						<field name="all_employee"/>
+						<field name="employee_ids" options="{'no_create_edit': True}" attrs="{'invisible': [('all_employee', '=', True)]}" widget='many2many_tags'/>
+						
+						
+					</group>
+					<footer>
+
+						<button name="print_report" string="Imprimer" type="object" class="oe_highlight" />
+	    				ou
+						<button string="Annuler" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_hr_virbanc" model="ir.actions.act_window">
+			<field name="name">Virement bancaire</field>
+			<field name="res_model">hr.payroll.report.virbanc</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		
+		<menuitem id="menu_payroll_docs" 
+		 	parent="sub_menu_rapport_paie_algerienne" 
+		  	name="Documents de paie"
+		  	groups="eloapps_hr_payroll_dz.group_hr_payroll_manager"
+		  	sequence="30"
+		/>
+	
+		<menuitem id="menu_virbanc" 
+			parent="menu_payroll_docs" 
+			name="Virement bancaire"
+			action="action_hr_virbanc"
+			sequence="90"
+			groups="base.group_user"
+		/>
+	
+
+	</data>
+</odoo>

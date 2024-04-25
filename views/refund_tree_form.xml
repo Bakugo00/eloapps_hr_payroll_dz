@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="view_payslip_inherit_search" model="ir.ui.view">
+      <field name="name">payslip.search.add.filter</field>
+      <field name="model">hr.payslip</field>
+      <field name="inherit_id" ref="eloapps_hr_payroll_dz.view_hr_payslip_filter"/>
+      <field name="arch" type="xml">
+        <xpath expr="//search" position="inside">
+          <filter string="Rembourser" name="Bul_a" domain="[('credit_note', '=', True)]"/>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="view_payslip_inherit_form" model="ir.ui.view">
+      <field name="name">payslip.form.inherited</field>
+      <field name="model">hr.payslip</field>
+      <field name="inherit_id" ref="eloapps_hr_payroll_dz.view_hr_payslip_form"/>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='credit_note']" position="after">
+          <field name="payslip_ref" attrs="{'invisible':[('credit_note','=',False)], 'readonly': [('state', 'not in', ['draft'])]}" domain="[('employee_id','=',employee_id)]" />
+          <field name="base_vals" invisible="1"/>
+          <field name="refund_payslip" invisible="1"/>
+        </xpath>
+
+        <xpath expr="//field[@name='credit_note']" position="attributes">
+          <attribute name="attrs">{'invisible':[('state','=','draft')]}</attribute>
+        </xpath>
+
+        <xpath expr="//button[@name='refund_sheet']" position="replace">
+          <button string="Avoir" name="refund_sheet" attrs="{'invisible': ['|', ('credit_note','=',True), ('state','not in',['confirm', 'done'])]}" type="object"/>
+        </xpath>
+
+        <xpath expr="//button[@name='action_payslip_cancel']" position="attributes">
+            <attribute name="states">done</attribute>
+        </xpath>
+
+        <xpath expr="//button[@name='action_payslip_done']" position="before">
+          <field name="etat" invisible="1"/>
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+</odoo>

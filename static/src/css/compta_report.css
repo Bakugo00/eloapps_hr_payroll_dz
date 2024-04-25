@@ -1,0 +1,113 @@
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.table-borderless {
+    border: 1px solid black;
+    width: 100%;
+    /* height: 0.5cm; */
+    margin-left: 10px;
+}
+
+.table-c {
+    /* margin-top: -5px; */
+    border: 1px solid black;
+
+    margin-bottom: 5px;
+}
+.table-c2 {
+    /* margin-top: -5px; */
+    border: 1px solid black;
+
+    margin-bottom: 1px;
+}
+.table-c1 {
+    /* margin-top: -5px; */
+    border: 1px solid black;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.table-c thead > tr > th, .table-c tbody > tr > td {
+    border: 1px solid black;
+    margin-top:0px;
+    margin-bottom: 0px;
+    height: 15px;
+    /*     max-height:0.3cm; */
+    font-size: 85%;
+    width: 100px;
+
+}
+
+.table-borderless tbody tr td,
+.table-borderless tbody tr th,
+.table-borderless thead tr th,
+.table-borderless thead tr td,
+.table-borderless tfoot tr th,
+.table-borderless tfoot tr td {
+    border: none;
+    margin-top: 5px;
+    font-size: 75%;
+}
+
+/* .table-borderless tr:first-child td{
+   color: red;
+   /*     height: 70%; */
+/* } */
+
+.table-borderfull table {
+    border: 1px solid black;
+    height: 140mm;
+    /* display: flex; */
+}
+
+.table-borderfull tbody {
+    height: inherit;
+}
+
+.table-borderfull tbody tr td,
+.table-borderfull tbody tr th,
+.table-borderfull thead tr th,
+.table-borderfull thead tr td{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    width:120px;
+    /* overflow: hidden; */
+}
+
+.table-borderfull tbody tr{
+    height: auto;
+}
+.table-borderfull tbody td{
+    height: 10mm;!important;
+}
+
+.table-borderfull tbody tr:last-child {
+    height:100%;
+    vertical-align:top;
+}
+
+.table-borderfull thead tr th {
+    border-bottom: 1px solid black;
+    font-size: 80%;
+
+}
+.pad-top{
+    padding-top: 2px;
+
+     }
+
+.table-borderless span{
+    font-size: 10pt;
+}
+/*
+   .table-borderless tr > td:first-child {
+   width: 70%;
+   height: 70%;
+   } */
+
+.table-c tr > td:first-child {
+    width: 250px;
+    /*     height: 70%; */
+}

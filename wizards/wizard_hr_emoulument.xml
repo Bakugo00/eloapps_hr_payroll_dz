@@ -1,0 +1,64 @@
+<odoo>
+	<data>
+		<record id="state_emoulument_view" model="ir.ui.view">
+			<field name="name">Payroll Report emolument view wizard</field>
+			<field name="model">state.emoulument</field>
+			<field name="arch" type="xml">
+				<form >
+					<field name="company_id" invisible="1"/>
+					<field name="company_address" invisible="1"/>
+					<field name="company_phone" invisible="1"/>
+					<field name="job_name" invisible="1"/>
+					<field name="employee_address" invisible="1"/>
+					<field name="employee_phone" invisible="1"/>
+					<field name="social_security" invisible="1"/>
+					<field name="birthday" invisible="1"/>
+					<field name="place_of_birth" invisible="1"/>
+
+					<group string="Impression des rapports de la paie Algérienne">
+						
+						<field name="employee_id" required="1"  style="width: 50%;"/>
+						<!-- ici on rajouter le virement bancaire dans le name -->
+						<label for="date_from" string="Période"/>
+                            <div>
+                                <field name="date_from" class="oe_inline" required="1"/>
+                                -
+                                <field name="date_to" class="oe_inline" required="1"/>
+                            </div>
+
+
+						
+						
+					</group>
+					<footer>
+
+						<button name="print_report" string="Imprimer" type="object" class="oe_highlight" />
+	    				ou
+						<button string="Annuler" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_state_emoulument" model="ir.actions.act_window">
+			<field name="name">Relevé des émouluments</field>
+			<field name="res_model">state.emoulument</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+
+		<menuitem id="menu_emoulument" 
+			parent="menu_payroll_docs" 
+			name="Relevé des émouluments"
+			action="action_state_emoulument"
+			sequence="80"
+			groups="base.group_user"
+		/>
+
+
+ 
+	
+
+	</data>
+</odoo>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="tree_view_inherit" model="ir.ui.view">
+			<field name="name">Modification for clean tree view</field>
+			<field name="model">hr.leave</field>
+			<field name="type">tree</field>
+			<field name="inherit_id" ref="hr_holidays.hr_leave_view_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="/tree/field[@name='name']" position="after">
+					<field name="id_val" invisible='1'/>
+					<field name="name_desc" string="Information" attrs="{'invisible':[('id_val','=','1')]}"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="form_view_inherit" model="ir.ui.view">
+			<field name="name">Modification for clean tree form</field>
+			<field name="model">hr.leave</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_holidays.hr_leave_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="id_val" invisible='1'/>
+					<field name="name_desc" string="Information" attrs="{'invisible':[('id_val','=',True)]}"/>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="form_allocation_view_inherit" model="ir.ui.view">
+			<field name="name">Traduction</field>
+			<field name="model">hr.leave.allocation</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_holidays.hr_leave_allocation_view_form_manager"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='action_draft']" position="replace">
+					<button string="Marquer comme Brouillon" name="action_draft" type="object" attrs="{'invisible': ['|', ('can_reset', '=', False), ('state', 'not in', ['confirm', 'refuse'])]}"/>
+            
+				</xpath>
+			</field>
+		</record>
+
+		<record id="form_allocation_leave_view_inherit" model="ir.ui.view">
+			<field name="name">Traduction</field>
+			<field name="model">hr.leave</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='action_draft']" position="replace">
+					<button string="Marquer comme Brouillon" name="action_draft" type="object" attrs="{'invisible': ['|', ('can_reset', '=', False), ('state', 'not in', ['confirm', 'refuse'])]}"/>
+				</xpath>
+			</field>
+		</record>
+		<record id="form_view_allocation_inherit" model="ir.ui.view">
+			<field name="name">Modification de la vue form congé</field>
+			<field name="model">hr.leave</field>
+			<field name="type">form</field>
+			<field name="inherit_id" ref="hr_holidays.hr_leave_view_form_manager"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='action_validate']" position="replace">
+					<button string="Valider la sortie" name="action_validate" states="confirm" type="object" class="oe_highlight"/>
+				</xpath>
+			</field>
+		</record>
+
+
+	</data>
+</odoo>

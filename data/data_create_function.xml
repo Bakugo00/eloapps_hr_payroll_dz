@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <function model="hr.salary.rule.category" name="create_categories" />
+        <function model="hr.salary.rule" name="create_rules" />
+        <function model="hr.payroll.structure" name="create_structures" />
+        <function model="hr.rule.input" name="create_inputs" />
+        <function model="hr.salary.rule" name="check_account_in_salary_rules" />
+    </data>
+</odoo>

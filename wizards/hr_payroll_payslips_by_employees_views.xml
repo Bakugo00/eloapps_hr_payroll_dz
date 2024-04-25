@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hr_payslip_by_employees" model="ir.ui.view">
+            <field name="name">hr_payroll_payslip_employees</field>
+            <field name="model">hr.payslip.employees</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <span colspan="4" nolabel="1">Ce wizard générera des fiches de paie pour tous les employés sélectionnés en fonction aux dates et avoir indiqué sur le bulletin de paie.
+                            </span>
+                        </group>
+                        <separator string="Employés" colspan="4"/>
+                        <field name="employee_ids" nolabel="1"/>
+                    </sheet>
+                    <footer>
+                        <button icon="fa-cogs" string="Générer" name="compute_sheet" type="object" class="oe_highlight"/>
+                        <button special="cancel" string="Annuler"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    
+        <record id="action_hr_payslip_by_employees" model="ir.actions.act_window">
+            <field name="name">Générer bulletin de paie</field>
+            <field name="res_model">hr.payslip.employees</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_hr_payslip_by_employees"/>
+            <field name="target">new</field>
+        </record>    
+    </data>
+</odoo>

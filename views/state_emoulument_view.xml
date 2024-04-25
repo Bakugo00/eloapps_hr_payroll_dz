@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Vue formulaire -->
+        <record id="view_form_state_emoulument" model="ir.ui.view">
+            <field name="name">view.form.state.emoulument</field>
+            <field name="model">state.emoulument</field>
+            <field name="arch" type="xml">
+                <form >
+                    <header>
+                        <button name="calcule_lines" string="Calculer les lignes" type="object" class="oe_highlight"/>
+                        <button name="print_emoulument_report" string="Imprimer" type="object" class="oe_highlight" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                        
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group string="Informations de la société">
+                                <field name="company_id"  required="1" />
+                                <field name="company_address" />
+                                <field name="company_phone" />
+                            </group>
+                            <group string="Informations de l'employé">
+                                <field name="employee_id" required="1" />
+                                <field name="job_name"/>
+                                <field name="employee_address"/>
+                                <field name="employee_phone"/>
+                                <field name="social_security" />
+                                <label for="birthday" string="Né le"/>
+                                <div>
+                                    <field name="birthday" class="oe_inline" />
+                                    <b>à </b>
+                                    <field name="place_of_birth" class="oe_inline" />
+                                </div>
+                               
+                            </group>
+                            <group>
+                            <label for="date_from" string="Période"/>
+                            <div>
+                                <field name="date_from" class="oe_inline" required="1"/>
+                                -
+                                <field name="date_to" class="oe_inline" required="1"/>
+                            </div>
+                        </group>
+                            
+                        </group>
+                        
+                        <notebook>
+                            <page string="Lignes">
+                                <field name="line_ids">
+                                    <tree create="false" delete="false">
+                                        <field name="rub" />
+                                        <field name="january"  sum="total" />
+                                        <field name="february"  sum="total" />
+                                        <field name="mars"  sum="total" />
+                                        <field name="april"  sum="total" />
+                                        <field name="may"  sum="total" />
+                                        <field name="june"  sum="total" />
+                                        <field name="july"  sum="total" />
+                                        <field name="august"  sum="total" />
+                                        <field name="september"  sum="total" />
+                                        <field name="october"  sum="total" />
+                                        <field name="november"  sum="total" />
+                                        <field name="december"  sum="total" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Information" >
+                                <group>
+                                    <group >
+                                        <field name="create_date"  string="Crée le"/>
+                               
+                                    </group>
+                                    <group >
+                                        <field name="last_print_date" readonly="1"/>
+                                 
+                                    </group>
+                            
+                                </group>
+                            </page>
+                            <page string="Note">
+                                <field name="note" />
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--Vue liste -->
+        <record id="view_tree_state_emoulument" model="ir.ui.view">
+            <field name="name">view.tree.state.emoulument</field>
+            <field name="model">state.emoulument</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                             
+                </tree>
+            </field>
+        </record>
+
+        <!--Action -->
+        <record id="action_state_emoulument" model="ir.actions.act_window">
+            <field name="name">Relevé des émoluments</field>
+            <field name="res_model">state.emoulument</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_state_emoulument"
+            name="Relevé des émoluments"
+            parent="eloapps_hr_payroll_dz.menu_payroll_docs"
+            action="action_state_emoulument"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_payslip">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                <t t-set="rubriques_cotisables" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'COT'))"/>
+                <t t-set="rubriques_imposables" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code
+                == 'IMP'))"/>
+                <t t-set="rubriques_base" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'BASIC'))"/>
+                <t t-set="retenue_ss" t-value="sum(abs(p.total) for p in o.line_ids.filtered(lambda r: r.code == 'SS'))"/>
+                <t t-set="retenue_irg" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.code == 'IRG' or r.code == 'IRG10' or  r.code == 'IRG15' or r.code == 'IRGC'))"/>
+                <t t-set="base_cotisable" t-value="round(rubriques_base + rubriques_cotisables,2)"/>
+                <t t-set="base_imposable" t-value="round(base_cotisable + rubriques_imposables - retenue_ss,2)"/>
+
+                <t t-set="salaire_brut" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'GROSS'))"/>
+                <t t-set="salaire_net" t-value="sum(p.total for p in o.line_ids.filtered(lambda r: r.category_id.code == 'NET'))"/>
+
+                <t t-set="quantity_total" t-value="sum(p.quantity for p in o.line_ids.filtered(lambda line: line.appears_on_payslip and line.amount and line.code not in ['GROSS','NET']))"/>
+                
+
+                
+
+                    <div class="page">
+                        <t t-if="o.all_accounts_balance == True" >
+                            <h1 style="font-size:35px;margin-left:250px;margin-bottom:70px;margin-top:0px;"><b>Solde de tout compte</b></h1>
+                       </t>
+                       <t t-else="" >
+                            <h1 style="font-size:35px;margin-left:300px;margin-bottom:70px;margin-top:0px;"><b>Bulletin de paie</b></h1>
+                       </t>
+
+                       
+                        <table class="table table-sm table-bordered">
+                            <tr>
+                                <td>
+                                    <strong>Nom</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id"/>
+                                </td>
+                                <td>
+                                    <strong>Désignation</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id.job_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Addresse</strong>
+                                </td>
+                                <td colspan="3">
+                                    <div t-field="o.employee_id.address_home_id"
+                                         t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Email</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id.work_email"/>
+                                </td>
+                                <td>
+                                    <strong>N° d'identification</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id.identification_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    
+                                    <t t-if="o.company_id.recrutement_date" >
+                                        <strong>Date de recrutement</strong>
+                                    </t>
+                                    <t t-else="" >
+                                        <strong>Référence</strong>
+                                    </t>
+                                </td>
+                                <td>
+                                    
+                                    <t t-if="o.company_id.recrutement_date" >
+                                        <t t-set="date_start" t-value="o.env['hr.contract'].search([('employee_id','=', o.employee_id.id)],order='date_start asc',limit=1).date_start"/>
+                                            <t t-if="date_start" >
+                                            <span t-esc="date_start.strftime('%d/%m/%Y')"/>
+                                            </t>
+
+                                    </t>
+                                    <t t-else="" >
+                                        <span t-field="o.number"/>
+                                    </t>
+
+                                </td>
+                                <td>
+                                    <strong>Compte bancaire</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id.bank_account_id"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Date de début</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.date_from"/>
+                                </td>
+                                <td>
+                                    <strong>Date de fin</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.date_to"/>
+                                </td>
+                            </tr>
+                            <t t-if="o.all_accounts_balance == True" >
+                                <tr>
+                                    <td>
+                                        <strong>Date du solde</strong>
+                                    </td>
+                                    <td colspan="3">
+                                        <div t-field="o.balance_date"/>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            
+                            <tr>
+                                <td>
+                                    <strong>Date de naissance</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id.birthday"/>
+                                </td>
+                                <td>
+                                    <strong>Sécurité sociale</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id.sec_social"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>État Civil</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id.marital"/>
+                                </td>
+                                <td>
+                                    <strong>Nombre d'enfants</strong>
+                                </td>
+                                <td>
+                                    <span t-field="o.employee_id.children"/>
+                                </td>
+                            </tr>
+                            <t t-if="o.company_id.iep_rate" >
+                                <tr>
+                                    <td>
+                                        <strong>Taux IEP</strong>
+                                    </td>
+                                    <td>
+                                        <t t-set="iep" t-value="o.env['hr.contract'].search([('employee_id','=', o.employee_id.id),('state','=', 'open')],limit=1).iep"/>
+                                        <t t-if="iep" >
+                                            <span t-esc="iep.taux"/> %
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+
+                            
+                        </table>
+
+                        <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Base</th>
+                                <th>Nombre de jours/Quantité</th>
+                                <th>Gains</th>
+                                <th>Retenues</th>
+                            </tr>
+                        </thead>
+                            <tbody>
+                                <tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line" t-if="line.amount and line.category_id.code not in ['GROSS','NET','INTERM','HJ','COEFF']">
+                                    <td>
+                                        <span t-field="line.name" />
+                                    </td>
+                                    <td>
+                                        <span t-esc="abs(line.amount)"
+                                              t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                    </td>
+                                    
+                                    <td >
+                                        <t t-if="line.code == 'SS'">
+                                            <span t-esc="line.quantity * line.rate" /> %
+                                        </t>
+                                        <t t-if="not line.code in ['SS' ,'BASEM' , 'BASEJ' ,'BASEH']">
+                                            <span t-esc="'{0:,.2f}'.format(line.quantity)"/>
+                                        </t>
+                                        <t t-if="line.code in ['BASEM' , 'BASEJ' , 'BASEH']">
+                                            <span t-esc="o.worked_days_line_ids[0].number_of_days"/>
+                                        </t>
+                                    </td>
+                                   
+                                    <td >
+                                        <t t-if="line.total &gt; 0 ">
+                                        <span t-esc="line.total" 
+                                            t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                          </t>
+                                    </td>
+                                    <td >
+                                        <t t-if="line.total != abs(line.total)" >
+                                        <span t-esc="abs(line.total)" 
+                                              t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/>
+                                          </t>
+                                    </td>
+
+                                </tr>
+                                <tfoot class="tfooter-book">
+                                    <tr style="font-size:16px" >
+                                        <th >TOTAUX : </th>
+                                        <th> </th>
+                                        <th> </th>
+
+
+                                        <th  class="first_line t_right">
+                                            <span style="color:black;" id="gains" t-esc="salaire_brut" 
+                                                t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+                                        </th>
+                                        <th class="first_line t_right">
+                                            <span style="color:black;" id="retenues" t-esc="sum(abs(p.total) for p in o.line_ids.filtered(lambda line: line.appears_on_payslip) if p.total != abs(p.total))" 
+                                            t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> 
+                                        </th>
+                                        
+                                    </tr>
+
+                                </tfoot>
+                            </tbody>
+
+                        </table>
+
+                        <table class="table table-sm" >
+                            <thead >
+                                <tr>
+                                    <th>Base cotisable</th>
+                                    <th>Sécurité Sociale</th>
+                                    <th>Base imposable</th>
+                                    <th>Ret. I.R.G</th>
+                                    <th>Salaire brut</th>
+                                    <th>NET A PAYER</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td ><span t-esc="base_cotisable" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+
+                                    <td ><span t-esc="retenue_ss" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+
+                                    <td ><span t-esc=" base_imposable" t-options='{"widget": "monetary", "display_currency":    o.company_id.currency_id}'/> </td>
+
+                                    <td ><span t-esc="abs(retenue_irg)" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+
+                                    <td ><span t-esc="salaire_brut" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> </td>
+
+                                    <td ><span t-esc="salaire_net" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <t t-if="o.all_accounts_balance == True" >
+                            <table style="width: 100%; height: 140px; padding-top:10px; padding-bottom:15px; padding-left:4px; page-break-before: auto; border: none;">
+                                <tr>
+                                    <th style="border: 1px solid black; width:25%; font-size:13px;">
+                                        <p style="text-decoration:underline;padding-top:5px; text-align:center;">
+                                            Signature de l'employée <br/> 
+                                        </p>
+                                    </th >
+                                    <th class="border-0" style="width:50%;">
+                                    </th>
+                                    <th style="border: 1px solid black; width:25%; font-size:13px;">
+                                        <p style="text-decoration:underline;padding-top:5px; text-align:center;">
+                                           Signature autorisée
+                                        </p>
+                                    </th>
+                                </tr>
+                            </table>
+                        </t>
+                        <t t-else="" >
+                            <table style="width: 100%; height: 140px; padding-top:10px; padding-bottom:15px; padding-left:4px; page-break-before: auto; border: none;">
+                                <tr>
+                                    <th class="border-0" style="width:70%;">
+                                    </th>
+                                    <th style="border: 1px solid black; width:25%; font-size:13px;">
+                                        <p style="text-decoration:underline;padding-top:5px; text-align:center;">
+                                           Signature autorisée 
+                                        </p>
+                                    </th>
+                                </tr>
+                            </table>
+                        </t>
+
+
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

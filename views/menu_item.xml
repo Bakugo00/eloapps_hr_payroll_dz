@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  	<data>
+        <!-- Menu principal -->
+        <menuitem   id="menu_hr_payroll_root"
+                    name="Paie"
+                    sequence="76"
+                    web_icon="eloapps_hr_payroll_dz,static/description/icon.png"/>
+
+                    <!-- Menu Bulletins de l'employée -->
+                    <menuitem   id="menu_department_tree"
+                                name="Bulletins de l'employé"
+                                parent="menu_hr_payroll_root"
+                                groups="eloapps_hr_payroll_dz.group_hr_payroll_user"/>
+
+                                <!-- Sous-menu bulletins de l'employé -->
+                                <menuitem   id="hr_bulletin_menu"
+                                            name="Bulletins de l'employé"
+                                            action="action_view_hr_payslip_2"
+                                            parent="menu_department_tree"
+                                            sequence="10"/>
+
+                                <!-- Sous-menu état de préstation de service -->
+                                <menuitem   id="hr_etat_pres_menu"
+                                            name="État des prestations de service"
+                                            action="action_view_hr_payslip_1"
+                                            parent="menu_department_tree"
+                                            sequence="20"/>
+
+            <!-- Menu les lots des bulletins de l'employée -->
+            <menuitem   id="menu_hr_payslip_run"
+                        name="Lots de bulletin de paie"
+                        action="action_hr_payslip_run_tree"
+                        parent="menu_hr_payroll_root"/>
+        
+            <!-- Sous-menu des employés -->
+            <menuitem   id="sub_menu_hr_payslip_employe"
+                        name="Employées"
+                        parent="menu_hr_payroll_root"/>
+
+                        <!-- Menu des employés -->
+                        <menuitem   id="menu_hr_payslip_employe"
+                                    name="Employées"
+                                    action="hr.open_view_employee_list_my"
+                                    parent="sub_menu_hr_payslip_employe"/>
+
+                        <!-- Menu Paie/Employés/Contrats -->
+                        <menuitem id="menu_payroll_employees_contract"
+                                    name="Contrats"
+                                    parent="sub_menu_hr_payslip_employe"
+                                    action="hr_contract.action_hr_contract"/>
+
+
+
+                        <!-- Menu des contrats -->
+                        <menuitem   id="menu_hr_payslip_contract"
+                                    name="Historique des contrats"
+                                    action="hr_contract.hr_contract_history_view_list_action"
+                                    parent="sub_menu_hr_payslip_employe"/>
+
+
+            <!-- Sous-menu des congés -->
+            <menuitem   id="sub_menu_hr_conge"
+                        name="Congés"
+                        parent="menu_hr_payroll_root"/>
+
+                        <!-- Menu des Congés -->
+                        <menuitem   id="menu_hr_conge"
+                                    name="Congés"
+                                    action="hr_holidays.hr_leave_action_action_approve_department"
+                                    parent="sub_menu_hr_conge"/>
+
+                        <!-- Menu des allocations -->
+                        <menuitem   id="menu_hr_allocation"
+                                    name="Allocations"
+                                    action="hr_holidays.hr_leave_allocation_action_approve_department"
+                                    parent="sub_menu_hr_conge"/>
+
+                        <!-- Menu des congés annuel -->
+                        <menuitem   id="menu_hr_conge_annuel"
+                                    name="Congés annuel"
+                                    action="eloapps_hr_payroll_dz.action_hr_annual_leave"
+                                    parent="sub_menu_hr_conge"/>
+
+            <!-- Paie / Rapport Paie Algerienne -->
+            <menuitem   id="sub_menu_rapport_paie_algerienne" 
+                        parent="menu_hr_payroll_root" 
+                        name="Rapports"
+                        sequence="70"/>
+        
+            <!-- Menu de configuration -->
+            <menuitem   id="menu_hr_payroll_configuration"
+                        name="Configuration" 
+                        parent="menu_hr_payroll_root"
+                        sequence="100"
+                        groups="eloapps_hr_payroll_dz.group_hr_payroll_manager"/>
+
+                        <menuitem   id="menu_hr_payroll_global_settings"
+                                    name="Configuration"
+                                    parent="menu_hr_payroll_configuration"
+                                    sequence="0"
+                                    action="action_hr_payroll_configuration"
+                                    groups="base.group_system"/>
+
+                        <menuitem   id="menu_hr_payroll_structure_view"
+                                    name="Structure des salaires"
+                                    action="action_view_hr_payroll_structure_list_form"
+                                    parent="menu_hr_payroll_configuration"
+                                    sequence="2"/>
+
+                        <menuitem   id="menu_hr_salary_rule_category"
+                                    name="Catégories de règles pour le salaire"
+                                    action="action_hr_salary_rule_category"
+                                    parent="menu_hr_payroll_configuration"
+                                    sequence="11"
+                                    groups="base.group_no_one"/>
+
+                        <menuitem   id="menu_action_hr_salary_rule_form"
+                                    name="Règles salariales"
+                                    action="action_salary_rule_form"
+                                    parent="menu_hr_payroll_configuration" 
+                                    sequence="12"/>
+
+        <!-- Sous-menu congés annuel -->
+        <menuitem   id="hr_annual_leave"
+                    name="Congés annuel"
+                    action="action_hr_annual_leave"
+                    parent="hr_holidays.menu_hr_holidays_root"
+                    sequence="03"/>
+    </data>
+</odoo>

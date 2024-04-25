@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+
+        <record id="custom_book_format" model="report.paperformat">
+            <field name="name">book A4</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">13</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">45</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <!-- Relevé des émoluments (Rapport) -->
+        <record id="hr_statement_emoulument" model="ir.actions.report">
+            <field name="model">state.emoulument</field>
+            <field name="name">État des émoulements</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">eloapps_hr_payroll_dz.report_hr_statement_emoulument</field>
+            <field name="report_file">eloapps_hr_payroll_dz.report_hr_statement_emoulument</field>
+            <field name="paperformat_id" ref="eloapps_hr_payroll_dz.custom_book_format"/>
+            <field name="binding_model_id"></field>
+        </record>
+
+        <!-- Virement bancaire(Rapport) -->
+        <record id="hr_payroll_virement_bancaire" model="ir.actions.report">
+            <field name="model">hr.payroll.report.virbanc</field>
+            <field name="name">Virement Bancaire</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">eloapps_hr_payroll_dz.report_hr_payroll_virement_bancaire</field>
+            <field name="report_file">eloapps_hr_payroll_dz.report_hr_payroll_virement_bancaire</field>
+            <field name="paperformat_id" ref="eloapps_hr_payroll_dz.custom_book_format"/>
+            <field name="binding_model_id"></field>
+        </record>
+    </data>
+</odoo>

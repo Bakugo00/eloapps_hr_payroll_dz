@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  	<data>
+
+		<template id="report_hr_statement_emoulument_document">
+			<div class="page">
+				<t t-call="eloapps_hr_payroll_dz.report_custom_footer" />
+				<style type="text/css">
+                    table, th, td, tr {
+		                  border-collapse: collapse ;
+		                  border: 1px solid #437ba4;
+                          
+                        }
+                    thead, tfooter {
+                		background-color: #DAE5D0;
+                        border-collapse: collapse ;
+                        border: 1px solid #437ba4;
+                    }
+                    tbody {
+                
+                        border-collapse: collapse;
+		                border: 1px solid #437ba4;
+                    }
+                    
+                </style>
+               
+              
+                 <t t-set="list_months" t-value="{'1':'Janvier','2':'Février','3':'Mars','4':'Avril',
+	            '5':'Mai','6':'Juin','7':'Juillet','8':'Août','9':'Septembre',
+	            '10':'Octobre','11':'Novembre','12':'Décembre'}"/>
+
+            	<t t-set="list_number_months" t-value="o.months_number_list(o.date_from, o.date_to)"/>
+            	<t t-set="list_dates" t-value="o.months_between(o.date_from, o.date_to)"/>
+
+                
+				<div class="row">
+					<div class="col-4">
+						<h2><field t-field="o.company_id.name" /></h2> 
+						Adresse : <field t-field="o.company_address" /> <br/>
+
+					</div>
+					<div class="col-4"> </div>
+					<div class="col-4">
+						<h2><field t-field="o.employee_id.name" /></h2> 
+						<b><t t-esc="o.job_name"/></b> <br/>
+
+						<span>Né le :</span>
+						<span t-field="o.birthday"/>
+						<span> à :</span>						
+						<span t-field="o.place_of_birth"/> <br/>
+
+
+						Adresse : <field t-field="o.employee_address" /> <br/>
+						N° Téléphone : <span t-field="o.employee_phone"/> <br/>
+						N° de sécurité sociale : <span t-field="o.social_security"/> <br/>
+
+					</div>
+					
+				</div>
+				<center style="font-size: 25px; margin-top: 10px;" >Période du: <t t-esc="o.date_from.strftime('%d/%m/%Y')"/> au <t t-esc="o.date_to.strftime('%d/%m/%Y')"/></center><br/>
+
+				<table class="table-sm o_main_table" style="width: 100%;" >
+					<thead>
+						<tr>
+							<th>Rub/Mois</th>
+							<t t-foreach="list_number_months" t-as="m">
+								<th><t t-esc="list_months[str(m)]" /> </th>
+							</t>
+
+
+						</tr>
+					</thead>
+					<tbody>
+						<t t-set="lines" t-value="o.calcule_lines()[0]"/>
+						<t t-set="totals" t-value="o.calcule_lines()[1]"/>
+						<t t-foreach="lines" t-as="line">
+
+							<tr>
+								<td><span t-esc="lines[line]['rub']" /></td>
+								
+
+								
+								<t t-foreach="list_dates" t-as="m">
+									<t t-set="date" t-value="str(m.year)+'/'+ str(m.month)" />
+									<td> 
+										<t t-if="date in lines[line]" >
+											<span t-esc="'{0:,.2f}'.format(abs(lines[line][date])).replace(',', ' ')" /> 
+										</t>
+									</td>
+									
+								</t>
+
+
+							</tr>
+						</t>
+					</tbody>
+					<tfooter>
+						<tr>
+							<th>Total </th>
+							<t t-foreach="list_dates" t-as="m">
+								<t t-set="date" t-value="str(m.year)+'/'+ str(m.month)" />
+								<th>
+									
+									<t t-if="date in totals" >
+										<span t-esc="'{0:,.2f}'.format(abs(totals[date])).replace(',', ' ')" /> 
+									</t>	
+									<t t-else="" >
+										<span t-esc="'{0:,.2f}'.format(0).replace(',', ' ')" /> 
+									</t> 
+									
+								</th>
+
+							</t>
+
+						</tr>
+					</tfooter>
+				</table>
+			
+			</div>
+		</template>
+
+		<template id="report_custom_footer">
+            <div class="footer">
+                <div style="border-top: 1px solid #437ba4;"/>
+                <div class="row">
+                    <div class="text-center" style="margin-left:50%;margin-top:5px;">
+                        <span class="page" />/<span class="topage" />
+                    </div>
+                </div>
+            </div>
+        </template>
+
+		<template id="report_hr_statement_emoulument">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="eloapps_hr_payroll_dz.report_custom_header_state_emo" />
+					<t t-call="web.external_layout">
+						<t t-call="eloapps_hr_payroll_dz.report_hr_statement_emoulument_document"/>
+					</t>
+				</t>
+			</t>
+		</template>
+		
+
+
+	</data>
+</odoo>

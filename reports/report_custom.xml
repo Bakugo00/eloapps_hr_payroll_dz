@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Footer pour l etat prestation de service individuel -->
+        <template id="report_footer_payroll_etat_prestation_individuel" inherit_id="report_custom_payslip_individuel">
+            <xpath expr="//div[@class='page']" position="after">
+                <div class="footer">
+                    <div style="text-align: right; font-size:13;">
+                        <hr/>
+                        <center><span class="page"/> / <span class="topage" /></center>
+                        <center><b>Société: </b><span t-field="o.company_id.name"/> | <b>Téléphone: </b><span t-field="o.company_id.phone"/>| <b>Email:</b> <span t-field="o.company_id.email"/></center>
+                        
+
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="report_custom_header1">
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <div class="header">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 45px;"/>
+                    </div>
+               
+                </div>
+                <div class="row zero_min_height">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px solid black;"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <span t-field="o.company_id.name"/><br/>
+                        <span t-field="o.company_id.phone"/><br/>
+                        <span t-field="o.company_id.email"/><br/>
+                        <span t-field="o.company_id.street"/> (<span t-field="o.company_id.country_id"/>)
+                        <div style="border-bottom: 1px solid black;"/>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Header pour le relevé etat prestation individuel-->
+        <template id="report_header_etat_prestation_individuel" inherit_id="report_custom_payslip_individuel">
+            <xpath expr="//div[@class='page']" position="before">
+                <t t-call="eloapps_hr_payroll_dz.report_custom_header1" />
+            </xpath>
+        </template>
+
+
+         <template id="report_custom_footer">
+            <div class="footer">
+                <div style="border-top: 1px solid #437ba4;"/>
+                <div class="row">
+                    <div class="text-center" style="margin-left:50%;margin-top:5px;">
+                        <span class="page" />/<span class="topage" />
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="report_custom_header">
+          <div class="header">
+            <div class="row">
+                  <div class="col-xs-12 div_pad">
+                    <div id="company" class="col-md-4">
+                      <img t-if="o.company_id.logo and not o.address_id.image" t-att-src="'data:image/png;base64,%s' % o.company_id.logo" style="max-height: 65px;"/>
+                  <img t-if="o.address_id.image" t-att-src="'data:image/png;base64,%s' % o.address_id.image" style="max-height: 65px;"/>
+                  <!-- <h5><field t-field="o.company_id.rml_header1" /></h5> -->
+                </div>
+              </div>
+            </div>
+          </div>
+    </template>
+
+    <template id="report_custom_header_virbanc">
+      <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+      </t>
+      <t t-if="not o or not 'company_id' in o">
+          <t t-set="company" t-value="res_company"></t>
+      </t>
+        <div class="header">
+        
+        <div class="row">
+            <div class="col-xs-3">
+                <span t-field="company.partner_id.name"/><br/>
+              
+            </div>
+        </div>
+
+        <t t-set="months_fr" t-value="['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet',
+                     'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre']"/>
+        <center>
+            
+            <h2 style="color:#42484e;font-size:55px;">VIREMENT BANCAIRE</h2>
+            <h3 style="font-weight: normal;">Mois : <span t-esc="months_fr[int(o.w_month)-1]" /> / <span t-esc="o.year"/></h3>
+        </center><br/>
+
+        
+      </div>
+    </template>
+
+
+    <template id="report_custom_header_state_emo">
+      <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+      </t>
+      <t t-if="not o or not 'company_id' in o">
+          <t t-set="company" t-value="res_company"></t>
+      </t>
+        <div class="header">
+        
+        <div class="row">
+            <div class="col-xs-3">
+                <span t-field="company.partner_id.name"/><br/>
+              
+            </div>
+
+        </div>
+        <center><h2 style="font-size:55px;color:#42484e;"><b>Relevé des émoluments</b></h2></center>
+        
+        
+      </div>
+    </template>
+
+
+
+
+    </data>
+</odoo>

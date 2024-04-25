@@ -1,0 +1,35 @@
+
+.t_center {
+	text-align:center;
+	font-family: 'Droid Arabic Kufi';
+	color:#067bf2;
+} 
+.t_right {
+	text-align:right;
+	font-family: 'Droid Arabic Kufi';
+	color:#067bf2;
+} 
+.t_left {
+	text-align:left;
+	font-family: 'Droid Arabic Kufi';
+	color:#067bf2;
+}
+.b_bottom {
+	border-bottom: 1px solid;
+	font-family: 'Droid Arabic Kufi';
+	color:#067bf2;
+}
+.ul-arabic {
+	direction:rtl;
+}
+*.li-arabic {
+	direction:rtl; 
+	margin-right:5px;*/
+}
+.font_color {
+	font-family: 'Droid Arabic Kufi' ;
+	color:#067bf2;
+}
+#colored{
+	color:black;
+}

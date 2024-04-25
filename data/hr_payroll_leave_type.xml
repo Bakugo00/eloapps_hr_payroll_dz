@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1" >
+
+    <!-- ***** TYPES D'ABSENCES ***** -->
+        <!-- Conge Paye -->
+        <record model="hr.leave.type" id="hr_holidays.holiday_status_cl">
+            <field name="name">Congé Payé</field>
+            <field name="code">CP</field>
+            <field name="active">True</field>
+        </record>
+
+        <!--Congé maladie-->
+        <record model="hr.leave.type" id="hr_holidays.holiday_status_sl">
+            <field name="name">Congé maladie</field>
+            <field name="code">CM</field>
+            <field name="active">True</field>
+        </record>
+
+        <!--Congé maternité-->
+        <record model="hr.leave.type" id="holiday_status_sm">
+            <field name="name">Congé maternité</field>
+            <field name="code">MM</field>
+            <field name="active">True</field>
+        </record>
+
+        <!--Jours de compensation-->
+        <record model="hr.leave.type" id="hr_holidays.holiday_status_comp">
+            <field name="name">Jours de compensation</field>
+            <field name="code">JC</field>
+            <field name="active">True</field>
+        </record>
+
+         <!--Impayé-->
+        <record model="hr.leave.type" id="hr_holidays.holiday_status_unpaid">
+            <field name="name">Impayé</field>
+            <field name="code">IM</field>
+            <field name="active">True</field>
+        </record>
+        
+        <!-- Absence jour-->
+        <record model="hr.leave.type" id="abs">
+            <field name="name">Absence</field>
+            <field name="code">ABS</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Absence heure -->
+        <record model="hr.leave.type" id="absh">
+            <field name="name">Absence heure</field>
+            <field name="code">ABSH</field>
+            <field name="active">True</field>
+        </record>
+
+        <!-- Absence autorisée -->
+        <record model="hr.leave.type" id="abs1">
+            <field name="name">Absence autorisée</field>
+            <field name="code">ABSA</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo> 

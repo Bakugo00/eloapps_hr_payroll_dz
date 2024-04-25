@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Vue formulaire -->
+        <record id="view_form_hr_annual_leave_line" model="ir.ui.view">
+            <field name="name">view.form.annual.leave.line</field>
+            <field name="model">hr.annual.leave.line</field>
+            <field name="arch" type="xml">
+                <form string="Congés annuels">
+                    <sheet>
+                        <field name="name" invisible="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="employee_id" />
+                            </group>
+                            <group>
+                                <field name="annual_leave_id"/>
+                                <field name="leave_type_id"/>
+                            </group>
+                            <group>
+                                <field name="number_of_days"/>
+                                <field name="amount"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--Vue liste -->
+        <record id="view_tree_hr_annual_leave_line" model="ir.ui.view">
+            <field name="name">view.tree.annual.leave.line</field>
+            <field name="model">hr.annual.leave.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="payslip_id"/>
+                    <field name="annual_leave_id"/>
+                    <field name="leave_type_id"/>
+                    <field name="amount"/>
+                    <field name="number_of_days"/>
+                    <field name="currency_id" invisible="1"/>                  
+                </tree>
+            </field>
+        </record>
+
+        <!--Action -->
+        <record id="action_hr_annual_leave_line" model="ir.actions.act_window">
+            <field name="name">Ligne de congés annuel</field>
+            <field name="res_model">hr.annual.leave.line</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>
